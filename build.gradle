@@ -1,0 +1,24 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'com.gradle.plugin-publish' version '0.10.1'
+}
+
+group = 'org.mxstrive.gradle'
+version = '1.0.0'
+
+pluginBundle {
+    website = 'https://github.com/moxun1639/mklink' 
+    vcsUrl = 'https://github.com/moxun1639/mklink' 
+    tags = ['mklink', 'link', 'Symbolic Link'] 
+}
+
+gradlePlugin {
+    plugins {
+        mklinkPlugin {
+            id = 'org.mxstrive.gradle.mklink-plugin'
+            displayName = 'Mklink Plugin'
+            description = 'Create a symbolic link for gradle'
+            implementationClass = 'com.mxstrive.gradle.mklink.MklinkPlugin'
+        }
+    }
+}
