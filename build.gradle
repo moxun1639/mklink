@@ -3,7 +3,7 @@ plugins {
     id 'com.gradle.plugin-publish' version '0.10.1'
 }
 
-group = 'org.mxstrive.gradle'
+group = 'com.mxstrive.gradle'
 version = '1.0.0'
 
 pluginBundle {
@@ -15,7 +15,7 @@ pluginBundle {
 gradlePlugin {
     plugins {
         mklinkPlugin {
-            id = 'org.mxstrive.gradle.mklink-plugin'
+            id = 'com.mxstrive.gradle.mklink-plugin'
             displayName = 'Mklink Plugin'
             description = 'Create a symbolic link for gradle'
             implementationClass = 'com.mxstrive.gradle.mklink.MklinkPlugin'
