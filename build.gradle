@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.mxstrive.gradle'
-version = '1.0.0'
+version = '1.0.1'
 
 pluginBundle {
     website = 'https://github.com/moxun1639/mklink' 

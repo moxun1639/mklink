@@ -54,8 +54,12 @@ public class Mklink extends DefaultTask {
 
 		logger.debug("mklink: [" + linkDir + "] ==> [" + targetDir + "]");
 
-		GFileUtils.mkdirs(targetDir);
-		if (linkDir.exists() && targetDir.exists()) {
+		try {
+			GFileUtils.mkdirs(targetDir);
+		} catch (Exception e) {
+			logger.warn("mkdirs fail, [" + targetDir.getAbsolutePath() + "]");
+		}
+		if (linkDir.exists()) {
 			String wContent = System.currentTimeMillis() + "";
 			String testFileName = ".link.tmp";
 			File testFile = new File(linkDir.getAbsoluteFile() + "/" + testFileName);
@@ -77,7 +81,6 @@ public class Mklink extends DefaultTask {
 			throw new GradleException("please delete：[" + linkDir.getAbsolutePath() + "]");
 		}
 
-		GFileUtils.mkdirs(targetDir);
 		String osName = System.getProperty("os.name");
 		String osVersion = System.getProperty("os.version");
 		String cmd = null;
