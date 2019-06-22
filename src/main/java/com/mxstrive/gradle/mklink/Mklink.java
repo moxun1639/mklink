@@ -14,9 +14,9 @@ import org.gradle.util.GFileUtils;
 public class Mklink extends DefaultTask {
 	private static final String NEXT_ANY_TASK_NAME = "*";
 	private static final String CLEAN_TASK_NAME = "clean";
-	public String next = NEXT_ANY_TASK_NAME;
-	public String link;
-	public String target;
+	private String next;
+	private String link;
+	private String target;
 
 	@Input
 	public void setNext(String next) {
@@ -31,18 +31,28 @@ public class Mklink extends DefaultTask {
 				task.dependsOn(this);
 			}
 		});
+		makeTaskDescription();
 	}
 
 	@Input
 	public void setLink(String link) {
 		this.link = link;
+		makeTaskDescription();
 	}
 
 	@Input
 	public void setTarget(String target) {
 		this.target = target;
+		makeTaskDescription();
 	}
 
+	private void makeTaskDescription() {
+		if ( next == null || link == null || target == null) {
+			return;
+		}
+		setDescription(String.format("Create a symbolic link for [%s] before [%s]: [%s] => [%s]", getProject().getPath(), next, link, target));
+	}
+	
 	@TaskAction
 	void makeLink() {
 		if (target == null) {
@@ -99,7 +109,7 @@ public class Mklink extends DefaultTask {
 			throw new GradleException(e.toString());
 		}
 		if (process.exitValue() != 0) {
-			throw new GradleException("link error");
+			throw new GradleException("mklink error");
 		}
 	}
 

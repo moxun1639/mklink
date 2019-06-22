@@ -9,7 +9,6 @@ public class MklinkPlugin implements Plugin<Project> {
 	public void apply(Project project) {
 		project.getTasks().create("mklink", Mklink.class, (task) -> {
 			task.setGroup("Build");
-			task.setDescription("mklink for " + project.getName());
 		});
 	}
 }
