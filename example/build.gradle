@@ -1,0 +1,17 @@
+plugins {
+    id "com.mxstrive.gradle.mklink-plugin" version "1.0.2"
+}
+
+allprojects {
+    group = 'com.mxstrive'
+    version = '1.0.0'
+
+    apply plugin: 'java'
+    apply plugin: 'com.mxstrive.gradle.mklink-plugin'
+
+    mklink {
+        next = '*'
+        link = "${project.projectDir}\\build"
+        target = "R:\\Build\\example\\${project.name}"
+    }
+}
