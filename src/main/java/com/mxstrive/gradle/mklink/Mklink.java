@@ -2,7 +2,8 @@ package com.mxstrive.gradle.mklink;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
@@ -16,6 +17,7 @@ public class Mklink extends DefaultTask {
 	private String next;
 	private String link;
 	private String target;
+	private Boolean allowNoRootPath = false;
 
 	@Input
 	public void setNext(String next) {
@@ -45,6 +47,11 @@ public class Mklink extends DefaultTask {
 		makeTaskDescription();
 	}
 
+	@Input
+	public void setAllowNoRootPath(Boolean allowNoRootPath) {
+	  this.allowNoRootPath = allowNoRootPath;
+	}
+
 	private void makeTaskDescription() {
 		if ( next == null || link == null || target == null) {
 			return;
@@ -53,7 +60,7 @@ public class Mklink extends DefaultTask {
 	}
 	
 	@TaskAction
-	void makeLink() {
+	private void makeLink() {
 		if (target == null) {
 			throw new GradleException("please set target");
 		}
@@ -63,6 +70,15 @@ public class Mklink extends DefaultTask {
 
 		logger.debug("mklink: [" + linkDir + "] ==> [" + targetDir + "]");
 
+		Path rootPath = Paths.get(target).getRoot();
+		if (!rootPath.toFile().exists()) {
+			if (allowNoRootPath) {
+				logger.warn("rootPath: [" + rootPath + "] is not exists, the symbolic link will not be created");
+				return;
+			} else {
+				throw new GradleException("rootPath: [" + rootPath + "] is not exists");
+			}
+		}
 		try {
 			GFileUtils.mkdirs(targetDir);
 		} catch (Exception e) {
