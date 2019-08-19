@@ -13,6 +13,7 @@ import org.gradle.api.tasks.TaskAction;
 import org.gradle.util.GFileUtils;
 
 public class Mklink extends DefaultTask {
+	public static final String MKLINK_TASK_NAME = "mklink";
 	private static final String NEXT_ANY_TASK_NAME = "*";
 	private String next;
 	private String link;
@@ -25,6 +26,9 @@ public class Mklink extends DefaultTask {
 		Project project = getProject();
 		project.getTasks().forEach((task) -> {
 			if (IgnoredTask.isIgnoredTask(task)) {
+				return;
+			}
+			if (task.getName().startsWith(Mklink.MKLINK_TASK_NAME)) {
 				return;
 			}
 //			System.out.println(task.getPath() + " => " + task.getProject().getProjectDir() + " - " + task.getGroup()	+ " - " + task.getName());
